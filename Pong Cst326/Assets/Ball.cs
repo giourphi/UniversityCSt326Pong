@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
 using UnityEngine;
+using UnityEngine.UIElements;
 using UnityEngine.WSA;
 using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
@@ -11,8 +12,10 @@ using Vector3 = UnityEngine.Vector3;
 public class Ball : MonoBehaviour
 {
     public float speed;
-
+    public float acceleartonhit = .05f;
     public Rigidbody2D r;
+    private int hitcounter;
+   
 
     public Vector3 startpos;
     // Start is called before the first frame update
@@ -35,9 +38,39 @@ public class Ball : MonoBehaviour
 
     private void Launcher()
     {
-        float x = Random.Range(0, 2) == 0 ? -1 : 1;
-        float y = Random.Range(0, 2) == 0 ? -1 : 1;
-        r.velocity = new Vector2(speed * x, speed * y);
-        
+
+        Vector2 direction = (Random.value < 0.5f) ? Vector2.right : Vector2.left;
+
+        r.velocity = direction * speed;
     }
+
+    float hitfactor(Vector2 ballPos, Vector2 racketPos, float racketHeight)
+    {
+        return (ballPos.y - racketPos.y) / racketHeight;
+    }
+
+     void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.name == "PaddleLeft")
+        {
+            HandleRacketCollision(col, 1);
+        }else if (col.gameObject.name == "PaddleRight")
+        {
+            HandleRacketCollision(col, -1);
+        }
+    }
+
+
+
+     private void HandleRacketCollision(Collision2D col, int bounceDirectionX)
+     {
+         hitcounter++;
+
+         float y = hitfactor(transform.position, col.transform.position, col.collider.bounds.size.y);
+
+         Vector2 direction = new Vector2(bounceDirectionX, y).normalized;
+
+         r.velocity = direction * (speed + (hitcounter * acceleartonhit));
+
+     }
 }

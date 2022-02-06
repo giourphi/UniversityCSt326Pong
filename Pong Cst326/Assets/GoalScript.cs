@@ -6,8 +6,9 @@ using UnityEngine;
 public class GoalScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    public bool playerScored;    
+    public bool playerScored;
 
+    
     // Update is called once per frame
     private void OnTriggerEnter2D(Collider2D collision)
     {
