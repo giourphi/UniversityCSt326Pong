@@ -27,7 +27,7 @@ public class GameManagerScript : MonoBehaviour
   private int player2Score; 
   TextMeshPro text;
   
-  public int maxscore = 11;
+  bool  maxscore = false;
   
   
   
@@ -36,9 +36,10 @@ public class GameManagerScript : MonoBehaviour
         player1Score++;
         Player1Text.GetComponent<TextMeshProUGUI>().text = player1Score.ToString(); 
         //Debug.Log(player1Score);
-        if (player1Score == maxscore)
+        if (player1Score ==11)
         {
-            stop();
+            maxscore = true; 
+            Stop();
         }
         ResetPosition();
     }
@@ -48,9 +49,10 @@ public class GameManagerScript : MonoBehaviour
         player2Score++;
         Player2Text.GetComponent<TextMeshProUGUI>().text = player2Score.ToString();
        // Debug.Log(player2Score);
-       if (player2Score == maxscore)
+       if (player2Score == 11)
        {
-           stop();
+           maxscore = true;
+           Stop();
        }
        ResetPosition();
     }
@@ -64,9 +66,9 @@ public class GameManagerScript : MonoBehaviour
     }
 
 
-    public void stop()
+    private void Stop()
     {
-        if (player1Score==maxscore-1)
+        if (maxscore && player1Score ==11)
         {
          
             string player = "Player 1 Wins!!";
@@ -76,7 +78,7 @@ public class GameManagerScript : MonoBehaviour
             player1Score = 0;
             gameover.GetComponent<TextMeshProUGUI>().text = "";
             ResetPosition();
-        }else if (player2Score == maxscore-1)
+        }else if (maxscore && player2Score==11)
         {
             string player = "Player 2 Wins!!";
             gameover.GetComponent<TextMeshProUGUI>().text = player; 
