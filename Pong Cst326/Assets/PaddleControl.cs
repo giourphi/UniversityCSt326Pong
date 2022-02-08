@@ -34,7 +34,6 @@ public class PaddleControl : MonoBehaviour
         }
 
         r.velocity = new Vector2(r.velocity.x, direction * moveSpeed);
-
     }
 
     public void Reset()
