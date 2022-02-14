@@ -18,6 +18,13 @@ public class GameManagerScript : MonoBehaviour
   [Header("Player 2")]
   public GameObject player2;
   public GameObject player2Goal;
+  
+  [Header("Powerup1")]
+  public GameObject powerup1;
+
+  [Header("Powerup2")] 
+  public GameObject powerup2;
+  
 
   [Header("Score UI")] 
   public GameObject Player1Text;
@@ -28,15 +35,50 @@ public class GameManagerScript : MonoBehaviour
   TextMeshPro text;
   
   bool  maxscore = false;
-  
-  
-  
+  public AudioSource gameoversound;
+
+    
+
+
+      public void powerup1hit()
+      {
+          if (player1)
+          {
+              Vector3 scale = transform.localScale;
+              scale.x = 10f;
+              player1.transform.localScale = scale;
+          }else if (player2)
+          {
+              Vector3 scale = transform.localScale;
+              scale.x = 10f;
+              player2.transform.localScale = scale;
+          }
+      }
+
+      public void powerup2hit()
+      {
+          if (player1)
+          {
+              Vector3 scale = transform.localScale;
+
+              scale.x = 2f;
+              player1.transform.localScale = scale;
+          }else if (player2)
+          {
+              Vector3 scale = transform.localScale;
+              scale.x = 10f;
+              player2.transform.localScale = scale;
+          }
+      }
+
     public  void player1Scored()
     {
         player1Score++;
-        Player1Text.GetComponent<TextMeshProUGUI>().text = player1Score.ToString(); 
+        Player1Text.GetComponent<TextMeshProUGUI>().text = player1Score.ToString();
+        Player1Text.GetComponent <TextMeshProUGUI>().color = Color.blue;
+        Player2Text.GetComponent<TextMeshProUGUI>().color = Color.white;
         //Debug.Log(player1Score);
-        if (player1Score ==11)
+        if (player1Score >=11)
         {
             maxscore = true; 
             Stop();
@@ -48,8 +90,10 @@ public class GameManagerScript : MonoBehaviour
     {
         player2Score++;
         Player2Text.GetComponent<TextMeshProUGUI>().text = player2Score.ToString();
+        Player2Text.GetComponent<TextMeshProUGUI>().color = Color.green;
        // Debug.Log(player2Score);
-       if (player2Score == 11)
+       Player1Text.GetComponent<TextMeshProUGUI>().color = Color.white;
+       if (player2Score >= 11)
        {
            maxscore = true;
            Stop();
@@ -59,33 +103,51 @@ public class GameManagerScript : MonoBehaviour
 
     private void ResetPosition()
     {
+      
         ball.GetComponent<Ball>().Reset();
         player1.GetComponent<PaddleControl>().Reset();
         player2.GetComponent<PaddleControl>().Reset();
-        
+        ResetpowerUp();
+
     }
 
+    private void ResetpowerUp()
+    {
+        powerup1.GetComponent<PowerUps>().Reset();
+        powerup2.GetComponent<PowerUps>().Reset();
+    }
 
     private void Stop()
     {
-        if (maxscore && player1Score ==11)
+        if (maxscore && player1Score >=11)
         {
          
             string player = "Player 1 Wins!!";
             
             gameover.GetComponent<TextMeshProUGUI>().text =player;
             Debug.Log("Player 1 wins game over");
-            player1Score = 0;
-            gameover.GetComponent<TextMeshProUGUI>().text = "";
+            gameoversound.Play();
             ResetPosition();
-        }else if (maxscore && player2Score==11)
+           ResetGameoverScreen();
+        }else if (maxscore && player2Score>=11)
         {
             string player = "Player 2 Wins!!";
             gameover.GetComponent<TextMeshProUGUI>().text = player; 
             Debug.Log("Player 2 wins Game over");
-            player2Score = 0;
-            gameover.GetComponent<TextMeshProUGUI>().text = "";
-            ResetPosition();   
+            gameoversound.Play();
+            ResetPosition();  
+            ResetGameoverScreen();
         }
     }
+
+    [ContextMenu("test")]
+    private void ResetGameoverScreen()
+    {
+        player1Score = 0;
+        Player1Text.GetComponent<TextMeshProUGUI>().text = player1Score.ToString();
+        player2Score = 0;
+        Player2Text.GetComponent<TextMeshProUGUI>().text = player2Score.ToString();
+        gameover.GetComponent<TextMeshProUGUI>().text = "";
+    }
+        
 }

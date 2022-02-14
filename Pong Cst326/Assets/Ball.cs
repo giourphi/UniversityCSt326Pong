@@ -14,12 +14,16 @@ public class Ball : MonoBehaviour
     public float acceleartonhit = .05f;
     public Rigidbody2D r;
     private int hitcounter;
-   
+    public AudioSource tickSource;
+    public AudioSource tickSource2;
+    public bool isplayer1 =false; 
 
     public Vector3 startpos;
     // Start is called before the first frame update
     void Start()
     {
+        tickSource = GetComponent<AudioSource>();
+        tickSource2 = GetComponent<AudioSource>();
         startpos = transform.position;
         Launcher(); 
         
@@ -31,16 +35,34 @@ public class Ball : MonoBehaviour
     public void Reset()
     {
         r.velocity = Vector2.zero;
+        hitcounter = 0;
+       
+
+      /*  if (GameObject.Find("Goal1").GetComponent<GameManagerScript>().player1Goal)
+        {
+            transform.position = Vector3.right;
+        }
+
+        if (GameObject.Find("Goal2").GetComponent<GameManagerScript>().player2Goal)
+        {
+            transform.position = Vector3.left;
+        }
+        else
+        {
+            transform.position = startpos;
+        }
+*/
         transform.position = startpos;
         Launcher();
     }
 
     private void Launcher()
-    {
-
-        Vector2 direction = (Random.value < 0.5f) ? Vector2.right : Vector2.left;
-
-        r.velocity = direction * speed;
+    {   
+      
+        
+            Vector2 direction = (Random.value < 0.5f) ? Vector2.right : Vector2.left;
+            r.velocity = direction * speed;
+        
     }
 
     float hitfactor(Vector2 ballPos, Vector2 racketPos, float racketHeight)
@@ -52,11 +74,23 @@ public class Ball : MonoBehaviour
     {
         if (col.gameObject.name == "PaddleLeft")
         {
+            if (!isplayer1)
+            {
+                tickSource.Play();
+            }
+
             HandleRacketCollision(col, 1);
         }else if (col.gameObject.name == "PaddleRight")
         {
+            isplayer1 = true; 
+            if (isplayer1)
+            {
+                tickSource2.Play();
+            }
+
             HandleRacketCollision(col, -1);
         }
+       
     }
 
 
