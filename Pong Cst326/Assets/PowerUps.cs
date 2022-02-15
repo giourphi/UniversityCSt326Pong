@@ -19,8 +19,8 @@ public class PowerUps : MonoBehaviour
     {
         startpos = transform.position;
          
-        Vector2 direction = (Random.value < 0.5f) ? Vector2.up : Vector2.down;
-        r.velocity = direction * speed;
+    //    Vector2 direction = (Random.value < 0.5f) ? Vector2.right : Vector2.left;
+      //  r.velocity = direction * speed;
     }
 
     // Update is called once per frame

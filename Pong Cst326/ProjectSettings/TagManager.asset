@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ball
+  - PaddleLeft
+  - PaddleRight
   layers:
   - Default
   - TransparentFX

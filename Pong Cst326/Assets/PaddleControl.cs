@@ -10,14 +10,17 @@ public class PaddleControl : MonoBehaviour
     public float moveSpeed;
     public bool isPlayer;
     public Rigidbody2D r;
-    public Vector3 starpos; 
-
+    public Vector3 starpos;
+    
     private float direction;
-
-
+    public float size = 4f;
+    public Vector3 value; 
     void Start()
     {
         starpos = transform.position;
+        value.x=size;
+        value.y = .5f;
+        value.z = 1f;
     }
 
     // Update is called once per frame
@@ -40,5 +43,8 @@ public class PaddleControl : MonoBehaviour
     {
         r.velocity = Vector2.zero;
         transform.position = starpos;
+
+        transform.localScale = value;
+
     }
 }

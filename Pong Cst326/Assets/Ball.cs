@@ -16,7 +16,7 @@ public class Ball : MonoBehaviour
     private int hitcounter;
     public AudioSource tickSource;
     public AudioSource tickSource2;
-    public bool isplayer1 =false; 
+   // public bool isplayer1 =false; 
 
     public Vector3 startpos;
     // Start is called before the first frame update
@@ -73,21 +73,12 @@ public class Ball : MonoBehaviour
      void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.name == "PaddleLeft")
-        {
-            if (!isplayer1)
-            {
-                tickSource.Play();
-            }
-
+        { 
+            tickSource.Play();
             HandleRacketCollision(col, 1);
         }else if (col.gameObject.name == "PaddleRight")
         {
-            isplayer1 = true; 
-            if (isplayer1)
-            {
-                tickSource2.Play();
-            }
-
+            tickSource2.Play();
             HandleRacketCollision(col, -1);
         }
        

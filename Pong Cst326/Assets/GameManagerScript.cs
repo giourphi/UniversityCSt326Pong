@@ -36,39 +36,28 @@ public class GameManagerScript : MonoBehaviour
   
   bool  maxscore = false;
   public AudioSource gameoversound;
+  private Collider2D col;
 
-    
 
 
-      public void powerup1hit()
+  public void powerup1hit()
+  {
+
+      Vector3 scale = transform.localScale;
+      scale.x = 10f;
+      player1.transform.localScale = scale;
+
+
+  }
+
+  public void powerup2hit()
       {
-          if (player1)
-          {
-              Vector3 scale = transform.localScale;
-              scale.x = 10f;
-              player1.transform.localScale = scale;
-          }else if (player2)
-          {
-              Vector3 scale = transform.localScale;
-              scale.x = 10f;
-              player2.transform.localScale = scale;
-          }
-      }
+          Vector3 scale = transform.localScale;
+          scale.x = 2f; 
+          player2.transform.localScale = scale;
+      
+              
 
-      public void powerup2hit()
-      {
-          if (player1)
-          {
-              Vector3 scale = transform.localScale;
-
-              scale.x = 2f;
-              player1.transform.localScale = scale;
-          }else if (player2)
-          {
-              Vector3 scale = transform.localScale;
-              scale.x = 10f;
-              player2.transform.localScale = scale;
-          }
       }
 
     public  void player1Scored()
@@ -115,6 +104,7 @@ public class GameManagerScript : MonoBehaviour
     {
         powerup1.GetComponent<PowerUps>().Reset();
         powerup2.GetComponent<PowerUps>().Reset();
+        
     }
 
     private void Stop()
